@@ -67,11 +67,12 @@ class VanillaSGD(Optimizer):
             if dp is None:
                 continue
 
-            # TODO: Implement the optimizer step.
+            # TODO: Understand why p is good enough here in the dp expression and not 2p or something else coming from the derivitive of the loss function.
             # Update the gradient according to regularization and then
             # update the parameters tensor.
             # ====== YOUR CODE: ======
-            raise NotImplementedError()
+            dp += self.reg*p
+            p.data = p-self.learn_rate*dp
             # ========================
 
 

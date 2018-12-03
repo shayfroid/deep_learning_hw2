@@ -188,7 +188,15 @@ class BlocksTrainer(Trainer):
         # - Optimize params
         # - Calculate number of correct predictions
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        # fwd_out = self.model(X, y=y)
+        fwd_out = self.model(X)
+        loss = self.loss_fn.forward(fwd_out, y)
+        dx = self.loss_fn.backward()
+        self.optimizer.zero_grad()
+        self.model.backward(dx)
+        self.optimizer.step()
+
+
         # ========================
 
         return BatchResult(loss, num_correct)
