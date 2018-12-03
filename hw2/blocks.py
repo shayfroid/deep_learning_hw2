@@ -122,7 +122,11 @@ class Linear(Block):
         # ====== YOUR CODE: ======
         dx = torch.mm(dout, self.w)
         self.dw = torch.mm(dout.t(), x)
-        self.db = dout
+        self.db = torch.sum(dout, dim=0, keepdim=True).t()
+        # self.db = torch.mm(dout.t(), )
+        # self.db = dout
+        # print("dout: ", dout.shape)
+
 
         # ========================
 
@@ -203,7 +207,6 @@ class CrossEntropyLoss(Block):
         xmax, _ = torch.max(x, dim=1, keepdim=True)
         x = x - xmax  # for numerical stability
 
-        # TODO: Compute the cross entropy loss using the last formula from the
         # notebook (i.e. directly using the class scores).
         # Tip: to get a different column from each row of a matrix tensor m,
         # you can index it with m[range(num_rows), list_of_cols].
@@ -291,10 +294,12 @@ class Sequential(Block):
     def forward(self, x, **kw):
         out = None
 
-        # TODO: Implement the forward pass by passing each block's output
         # as the input of the next.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        out = x
+        for block in self.blocks:
+            out = block(out, **kw)
+
         # ========================
 
         return out
@@ -302,11 +307,12 @@ class Sequential(Block):
     def backward(self, dout):
         din = None
 
-        # TODO: Implement the backward pass.
         # Each block's input gradient should be the previous block's output
         # gradient. Behold the backpropagation algorithm in action!
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        din = dout
+        for block in reversed(self.blocks):
+            din = block.backward(din)
         # ========================
 
         return din
@@ -314,9 +320,9 @@ class Sequential(Block):
     def params(self):
         params = []
 
-        # TODO: Return the parameter tuples from all blocks.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        for block in self.blocks:
+            params += block.params()
         # ========================
 
         return params

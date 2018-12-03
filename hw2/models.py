@@ -34,9 +34,16 @@ class MLP(Block):
 
         blocks = []
 
-        # TODO: Build the MLP architecture as described.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+
+        blocks.append(Linear(in_features, hidden_features[0] if hidden_features else num_classes))
+
+        features = [feature for feature in hidden_features] + [num_classes]
+        for i in range(len(features) - 1):
+            # TODO fix error
+            blocks.append(ReLU())
+            blocks.append(Linear(features[i], features[i+1]))
+
         # ========================
 
         self.sequence = Sequential(*blocks)
@@ -94,7 +101,6 @@ class ConvClassifier(nn.Module):
         # Pooling to reduce dimensions.
         # ====== YOUR CODE: ======
         raise NotImplementedError()
-
         # ========================
         seq = nn.Sequential(*layers)
         return seq
@@ -134,4 +140,3 @@ class YourCodeNet(ConvClassifier):
     # ====== YOUR CODE: ======
     raise NotImplementedError()
     # ========================
-
