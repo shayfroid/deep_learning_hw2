@@ -72,7 +72,34 @@ class Trainer(abc.ABC):
             # - Optional: Implement early stopping. This is a very useful and
             #   simple regularization technique that is highly recommended.
             # ====== YOUR CODE: ======
-            raise NotImplementedError()
+
+            train_er = self.train_epoch(dl_train)
+            # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
+            avg_loss = sum(train_er.losses)/len(train_er.losses)
+            train_loss.append(avg_loss)
+            train_acc.append(train_er.accuracy)
+
+            test_er = self.test_epoch(dl_test)
+            # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
+            avg_loss = sum(test_er.losses) / len(test_er.losses)
+            test_loss.append(avg_loss)
+            test_acc.append(test_er.accuracy)
+
+            improved = best_acc > test_er.accuracy
+
+            if improved and checkpoints:
+                torch.save(self, checkpoints)
+
+            best_acc = best_acc if best_acc >= test_er.accuracy else test_er.accuracy
+
+            if early_stopping:
+                if improved:
+                    epochs_without_improvement = 0
+                else:
+                    epochs_without_improvement += 1
+                    if epochs_without_improvement >= early_stopping:
+                        break
+
             # ========================
 
         return FitResult(actual_num_epochs,
@@ -191,10 +218,20 @@ class BlocksTrainer(Trainer):
         # fwd_out = self.model(X, y=y)
         fwd_out = self.model(X)
         loss = self.loss_fn.forward(fwd_out, y)
+        # print("fwd_out: ", fwd_out, "\ny: ", y)
+
         dx = self.loss_fn.backward()
-        self.optimizer.zero_grad()
+        # self.optimizer.zero_grad()
         self.model.backward(dx)
         self.optimizer.step()
+
+        # argmax = torch.argmax(fwd_out, dim=0)
+
+        # print("\nequal: ",  argmax==y)
+        # print("\ny: ", y)
+        num_correct = torch.sum(torch.argmax(fwd_out, dim=0) == y)
+        # print("\nnum correct: ", num_correct)
+        # print("nc: ", num_correct)
 
 
         # ========================
@@ -208,7 +245,9 @@ class BlocksTrainer(Trainer):
         # - Forward pass
         # - Calculate number of correct predictions
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        fwd_out = self.model(X)
+        loss = self.loss_fn.forward(fwd_out, y)
+        num_correct = torch.sum(torch.argmax(fwd_out, dim=0) == y)
         # ========================
 
         return BatchResult(loss, num_correct)
