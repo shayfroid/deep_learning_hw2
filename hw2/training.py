@@ -216,13 +216,14 @@ class BlocksTrainer(Trainer):
         # - Calculate number of correct predictions
         # ====== YOUR CODE: ======
         # fwd_out = self.model(X, y=y)
-        fwd_out = self.model(X)
+        fwd_out = self.model.forward(X)
         loss = self.loss_fn.forward(fwd_out, y)
         # print("fwd_out: ", fwd_out, "\ny: ", y)
 
         dx = self.loss_fn.backward()
         # self.optimizer.zero_grad()
         self.model.backward(dx)
+        # self.optimizer._params = self.model.params()
         self.optimizer.step()
 
         # argmax = torch.argmax(fwd_out, dim=0)

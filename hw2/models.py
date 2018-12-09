@@ -100,7 +100,12 @@ class ConvClassifier(nn.Module):
         # Use only dimension-preserving 3x3 convolutions. Apply 2x2 Max
         # Pooling to reduce dimensions.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        for i in range(self.pool_every/len(self.filters)):
+            for j in range(self.pool_every):
+                layers.append(torch.nn.Conv2d(in_channels, in_channels, 3, stride=1, padding=1))
+                layers.append(torch.nn.ReLU())
+            layers.append(torch.nn.MaxPool2d((2, 2)))
+
         # ========================
         seq = nn.Sequential(*layers)
         return seq
@@ -114,7 +119,12 @@ class ConvClassifier(nn.Module):
         # You'll need to calculate the number of features first.
         # The last Linear layer should have an output dimension of out_classes.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        in_features = in_channels*in_w*in_h/(4**(self.pool_every/len(self.filters)))
+        for hd in self.hidden_dims:
+            layers.append(torch.nn.Linear(in_features, hd))
+            in_features = hd
+            layers.append(torch.nn.ReLU())
+        layers.append(torch.nn.Linear(in_features, self.out_classes))
         # ========================
         seq = nn.Sequential(*layers)
         return seq
@@ -124,7 +134,8 @@ class ConvClassifier(nn.Module):
         # Extract features from the input, run the classifier on them and
         # return class scores.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        fe = self.feature_extractor(x)
+        out = self.classifier(fe)
         # ========================
         return out
 

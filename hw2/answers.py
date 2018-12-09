@@ -15,8 +15,8 @@ def part2_overfit_hp():
     # ====== YOUR CODE: ======
     # raise NotImplemented
     wstd = 0.1
-    lr = 0.8
-    reg = 0
+    lr = 0.5
+    reg = 0.5
     # ========================
     return dict(wstd=wstd, lr=lr, reg=reg)
 
