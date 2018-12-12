@@ -100,11 +100,19 @@ class ConvClassifier(nn.Module):
         # Use only dimension-preserving 3x3 convolutions. Apply 2x2 Max
         # Pooling to reduce dimensions.
         # ====== YOUR CODE: ======
-        for i in range(self.pool_every/len(self.filters)):
+        print(self.in_size)
+        conv_num=0
+        for i in range(int(len(self.filters)/self.pool_every)):
             for j in range(self.pool_every):
-                layers.append(torch.nn.Conv2d(in_channels, in_channels, 3, stride=1, padding=1))
+                print(in_channels, self.filters[conv_num])
+                layers.append(torch.nn.Conv2d(in_channels, self.filters[conv_num], 3, stride=1, padding=1))
+                in_channels = self.filters[conv_num]
+                conv_num += 1
                 layers.append(torch.nn.ReLU())
-            layers.append(torch.nn.MaxPool2d((2, 2)))
+            layers.append(torch.nn.MaxPool2d((2, 2),dilation=1))
+            in_h= int(in_h/2)
+            in_w=int(in_w/2)
+        self.in_size=(in_channels, in_h, in_w)
 
         # ========================
         seq = nn.Sequential(*layers)
@@ -119,11 +127,12 @@ class ConvClassifier(nn.Module):
         # You'll need to calculate the number of features first.
         # The last Linear layer should have an output dimension of out_classes.
         # ====== YOUR CODE: ======
-        in_features = in_channels*in_w*in_h/(4**(self.pool_every/len(self.filters)))
+        print(self.in_size)
+        in_features = in_h*in_channels*in_w
         for hd in self.hidden_dims:
-            layers.append(torch.nn.Linear(in_features, hd))
-            in_features = hd
-            layers.append(torch.nn.ReLU())
+             layers.append(torch.nn.Linear(in_features,hd))
+             in_features = hd
+             layers.append(torch.nn.ReLU())
         layers.append(torch.nn.Linear(in_features, self.out_classes))
         # ========================
         seq = nn.Sequential(*layers)
@@ -135,6 +144,7 @@ class ConvClassifier(nn.Module):
         # return class scores.
         # ====== YOUR CODE: ======
         fe = self.feature_extractor(x)
+        fe = fe.view(fe.size(0), -1)
         out = self.classifier(fe)
         # ========================
         return out
