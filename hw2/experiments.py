@@ -15,7 +15,10 @@ from cs236605.train_results import FitResult
 from . import models
 from . import training
 
-DATA_DIR = os.path.join(os.getenv('HOME'), '.pytorch-datasets')
+if os.name == 'nt':
+    DATA_DIR = os.path.join(r"C:\Users\jonat\deeplearningcourse\cs236605-hw2", '.pytorch-datasets')
+else:
+    DATA_DIR = os.path.join(os.getenv('HOME'), '.pytorch-datasets')
 
 
 def run_experiment(run_name, out_dir='./results', seed=None,
@@ -56,7 +59,19 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     #  for you automatically.
     fit_res = None
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    x0, _ = ds_train[0];
+    insize=x0.shape
+    num_classes=10
+
+    model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block,pool_every=pool_every,hidden_dims=hidden_dims)
+    loss_fn = torch.nn.CrossEntropyLoss()
+    optimizer = torch.optim.SGD(model.parameters(), lr=1e-2, momentum=0.9, )
+    trainer = training.TorchTrainer(model,loss_fn,optimizer,device=device)
+
+    dl_train = torch.utils.data.DataLoader(ds_train, batch_size=2, shuffle=False)
+    dl_test = torch.utils.data.DataLoader(ds_test, batch_size=2, shuffle=False)
+    fit_res = trainer.fit(dl_train,dl_test,epochs,early_stopping=early_stopping,print_every=1)
+
     # ========================
 
     save_experiment(run_name, out_dir, cfg, fit_res)
