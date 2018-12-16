@@ -42,6 +42,10 @@ class MLP(Block):
         for i in range(len(features) - 1):
             # TODO fix error
             blocks.append(ReLU())
+
+            if dropout:
+                blocks.append(Dropout(dropout))
+
             blocks.append(Linear(features[i], features[i+1]))
 
         # ========================

@@ -260,9 +260,11 @@ class Dropout(Block):
         # ====== YOUR CODE: ======
         if self.training_mode:
             probs = torch.rand(x.shape)
-            probs[probs < self.p] = 0
-            probs[probs >= self.p] = 1
-            out = (x*probs) / self.p
+            # probs[probs < self.p] = 0
+            # probs[probs >= self.p] = 1
+
+            x[probs < self.p] = 0
+            out = x / self.p
 
             self.grad_cache['drops'] = probs
         else:
@@ -276,9 +278,11 @@ class Dropout(Block):
         # ====== YOUR CODE: ======
         if self.training_mode:
             drops = self.grad_cache['drops']
-            dx = dout*drops
+            dx = dout
+            dx[drops < self.p] = 0
         else:
             dx = dout
+
         # ========================
 
         return dx
