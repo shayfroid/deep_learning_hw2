@@ -60,17 +60,17 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     fit_res = None
     # ====== YOUR CODE: ======
     x0, _ = ds_train[0];
-    insize=x0.shape
-    num_classes=10
+    insize = x0.shape
+    num_classes = 10
 
-    model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block,pool_every=pool_every,hidden_dims=hidden_dims)
+    model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block, pool_every=pool_every, hidden_dims=hidden_dims)
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=1e-2, momentum=0.9, )
-    trainer = training.TorchTrainer(model,loss_fn,optimizer,device=device)
+    trainer = training.TorchTrainer(model, loss_fn, optimizer, device=device)
 
     dl_train = torch.utils.data.DataLoader(ds_train, batch_size=1000, shuffle=False)
     dl_test = torch.utils.data.DataLoader(ds_test, batch_size=1000, shuffle=False)
-    fit_res = trainer.fit(dl_train,dl_test,epochs,early_stopping=early_stopping,print_every=1)
+    fit_res = trainer.fit(dl_train, dl_test, epochs, early_stopping=early_stopping, print_every=1)
 
     # ========================
 

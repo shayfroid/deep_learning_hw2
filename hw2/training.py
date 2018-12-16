@@ -265,7 +265,7 @@ class TorchTrainer(Trainer):
         loss = self.loss_fn(fwd_out, y)
         self.optimizer.zero_grad()
         loss.backward()
-        loss=loss.item()
+        loss = loss.item()
         self.optimizer.step()
         num_correct = torch.sum(torch.argmax(fwd_out, dim=1) == y)
         # ========================
