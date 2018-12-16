@@ -55,7 +55,7 @@ class Trainer(abc.ABC):
         actual_num_epochs = 0
         train_loss, train_acc, test_loss, test_acc = [], [], [], []
 
-        best_acc = None
+        best_acc = 0
         epochs_without_improvement = 0
 
         for epoch in range(num_epochs):
@@ -76,16 +76,14 @@ class Trainer(abc.ABC):
 
             train_er = self.train_epoch(dl_train)
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
-            avg_loss = sum(train_er.losses)#/len(train_er.losses)
+            avg_loss = sum(train_er.losses)/len(train_er.losses)
             train_loss.append(avg_loss)
-            # train_loss += train_er.losses
             train_acc.append(train_er.accuracy)
 
             test_er = self.test_epoch(dl_test)
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
-            avg_loss = sum(test_er.losses) #/ len(test_er.losses)
+            avg_loss = sum(test_er.losses)/ len(test_er.losses)
             test_loss.append(avg_loss)
-            # test_loss += test_er.losses
             test_acc.append(test_er.accuracy)
 
             improved = best_acc < test_er.accuracy
@@ -94,7 +92,7 @@ class Trainer(abc.ABC):
                 torch.save(self, checkpoints)
 
             best_acc = best_acc if best_acc >= test_er.accuracy else test_er.accuracy
-
+            #break
             if early_stopping:
                 if improved:
                     epochs_without_improvement = 0

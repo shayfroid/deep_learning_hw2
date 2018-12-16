@@ -92,11 +92,11 @@ class MomentumSGD(Optimizer):
 
         # TODO: Add your own initializations as needed.
         # ====== YOUR CODE: ======
-        self.v = [torch.zeros_like(p) for p, _ in params]
+        self.v = { p: torch.zeros_like(p) for p, _ in params}
         # ========================
 
     def step(self):
-        for i, p, dp in enumerate(self.params):
+        for  p, dp in self.params:
             if dp is None:
                 continue
 
@@ -105,8 +105,8 @@ class MomentumSGD(Optimizer):
             # to include the regularization term.
             # ====== YOUR CODE: ======
             dp += self.reg * p
-            self.v[i] = self.momentum * self.v[i]-self.learn_rate*dp
-            p.data = p + self.v[i]
+            self.v[p] = self.momentum * self.v[p]-self.learn_rate*dp
+            p.data = p + self.v[p]
 
             # ========================
 
@@ -128,12 +128,11 @@ class RMSProp(Optimizer):
 
         # TODO: Add your own initializations as needed.
         # ====== YOUR CODE: ======
-        self.r = [torch.zeros_like(dp) if dp is not None else None
-                  for _, dp in self.params]
+        self.r = {p: torch.zeros_like(dp)   for p, dp in self.params}
         # ========================
 
     def step(self):
-        for i, p, dp in enumerate(self.params):
+        for p, dp in self.params:
             if dp is None:
                 continue
 
@@ -144,6 +143,6 @@ class RMSProp(Optimizer):
             # ====== YOUR CODE: ======
             dp += self.reg * p
             
-            self.r[i] = self.decay * self.r[i] + (1-self.decay)*(dp**2)
-            p.data = p - (self.learn_rate/(torch.sqrt(self.r[i]+self.eps))) * dp
+            self.r[p] = self.decay * self.r[p] + (1-self.decay)*(dp**2)
+            p.data = p - (self.learn_rate/(torch.sqrt(self.r[p]+self.eps))) * dp
             # ========================

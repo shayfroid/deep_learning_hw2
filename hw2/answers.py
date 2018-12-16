@@ -16,7 +16,7 @@ def part2_overfit_hp():
     # raise NotImplemented
     wstd = 0.1
     lr = 0.03
-    reg = 0.1
+    reg = 0.01
     # ========================
     return dict(wstd=wstd, lr=lr, reg=reg)
 
@@ -28,8 +28,10 @@ def part2_optim_hp():
     # You may want to use different learning rates for each optimizer.
     # ====== YOUR CODE: ======
     wstd = 0.1
-    lr = 0.05
-    reg = 0.1
+    lr_vanilla = 4e-4
+    reg = 0.01
+    lr_momentum = 1e-4
+    lr_rmsprop =1e-4
     # ========================
     return dict(wstd=wstd, lr_vanilla=lr_vanilla, lr_momentum=lr_momentum,
                 lr_rmsprop=lr_rmsprop, reg=reg)
