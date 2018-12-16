@@ -45,7 +45,7 @@ class MLP(Block):
             blocks.append(Linear(features[i], features[i+1]))
 
         # ========================
-
+        # print("\nlast block type: ", type(blocks[-1]))
         self.sequence = Sequential(*blocks)
 
     def forward(self, x, **kw):

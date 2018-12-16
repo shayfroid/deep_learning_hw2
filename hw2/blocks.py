@@ -113,16 +113,14 @@ class Linear(Block):
         """
         x = self.grad_cache['x']
 
-        # TODO: Fix db calculation
-
         #   - dx, the gradient of the loss with respect to x
         #   - dw, the gradient of the loss with respect to w
         #   - db, the gradient of the loss with respect to b
         # You should accumulate gradients in dw and db.
         # ====== YOUR CODE: ======
         dx = torch.mm(dout, self.w)
-        self.dw = torch.mm(dout.t(), x)
-        self.db = torch.sum(dout, dim=0)
+        self.dw += torch.mm(dout.t(), x)
+        self.db += torch.sum(dout, dim=0)
         # ========================
 
         return dx
@@ -148,6 +146,7 @@ class ReLU(Block):
 
         # ====== YOUR CODE: ======
         out = torch.max(x, torch.zeros(x.shape))
+
         # ========================
 
         self.grad_cache['x'] = x
@@ -161,7 +160,8 @@ class ReLU(Block):
         x = self.grad_cache['x']
 
         # ====== YOUR CODE: ======
-        dx = dout.clone()
+        # dx = dout.clone()
+        dx = dout
         dx[x < 0] = 0
 
         # ========================
@@ -305,7 +305,7 @@ class Sequential(Block):
         # ====== YOUR CODE: ======
         out = x
         for block in self.blocks:
-            out = block(out, **kw)
+            out = block.forward(out, **kw)
 
         # ========================
 

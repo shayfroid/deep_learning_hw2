@@ -73,7 +73,7 @@ class VanillaSGD(Optimizer):
             # ====== YOUR CODE: ======
             # print("dp :", dp)
             dp += self.reg*p
-            p.data = p-self.learn_rate*dp
+            p -= self.learn_rate*dp
             # ========================
 
 

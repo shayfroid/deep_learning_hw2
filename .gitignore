@@ -277,3 +277,4 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/python,pycharm,windows,osx,linux
+Part0_Intro.ipynb Part1_Backprop.ipynb Part2_Optimization.ipynb Part2_Optimization.py Part3_CNNs.ipynb

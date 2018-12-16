@@ -59,6 +59,7 @@ class Trainer(abc.ABC):
         epochs_without_improvement = 0
 
         for epoch in range(num_epochs):
+            actual_num_epochs += 1
             verbose = False  # pass this to train/test_epoch.
             if epoch % print_every == 0 or epoch == num_epochs-1:
                 verbose = True
@@ -75,17 +76,19 @@ class Trainer(abc.ABC):
 
             train_er = self.train_epoch(dl_train)
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
-            avg_loss = sum(train_er.losses)/len(train_er.losses)
+            avg_loss = sum(train_er.losses)#/len(train_er.losses)
             train_loss.append(avg_loss)
+            # train_loss += train_er.losses
             train_acc.append(train_er.accuracy)
 
             test_er = self.test_epoch(dl_test)
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
-            avg_loss = sum(test_er.losses) / len(test_er.losses)
+            avg_loss = sum(test_er.losses) #/ len(test_er.losses)
             test_loss.append(avg_loss)
+            # test_loss += test_er.losses
             test_acc.append(test_er.accuracy)
 
-            improved = best_acc > test_er.accuracy
+            improved = best_acc < test_er.accuracy
 
             if improved and checkpoints:
                 torch.save(self, checkpoints)
@@ -215,25 +218,15 @@ class BlocksTrainer(Trainer):
         # - Optimize params
         # - Calculate number of correct predictions
         # ====== YOUR CODE: ======
-        # fwd_out = self.model(X, y=y)
         fwd_out = self.model.forward(X)
         loss = self.loss_fn.forward(fwd_out, y)
-        # print("fwd_out: ", fwd_out, "\ny: ", y)
 
         dx = self.loss_fn.backward()
-        # self.optimizer.zero_grad()
+        self.optimizer.zero_grad()
         self.model.backward(dx)
-        # self.optimizer._params = self.model.params()
         self.optimizer.step()
 
-        # argmax = torch.argmax(fwd_out, dim=0)
-
-        # print("\nequal: ",  argmax==y)
-        # print("\ny: ", y)
-        num_correct = torch.sum(torch.argmax(fwd_out, dim=0) == y)
-        # print("\nnum correct: ", num_correct)
-        # print("nc: ", num_correct)
-
+        num_correct = torch.sum(torch.argmax(fwd_out, dim=1) == y)
 
         # ========================
 
@@ -248,7 +241,7 @@ class BlocksTrainer(Trainer):
         # ====== YOUR CODE: ======
         fwd_out = self.model(X)
         loss = self.loss_fn.forward(fwd_out, y)
-        num_correct = torch.sum(torch.argmax(fwd_out, dim=0) == y)
+        num_correct = torch.sum(torch.argmax(fwd_out, dim=1) == y)
         # ========================
 
         return BatchResult(loss, num_correct)
