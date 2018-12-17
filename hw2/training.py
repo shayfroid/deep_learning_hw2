@@ -285,7 +285,7 @@ class TorchTrainer(Trainer):
             # ====== YOUR CODE: ======
             fwd_out = self.model.forward(X)
             loss = self.loss_fn.forward(fwd_out, y)
-            num_correct = torch.sum(torch.argmax(fwd_out, dim=0) == y)
+            num_correct = torch.sum(torch.argmax(fwd_out, dim=1) == y)
             # ========================
 
         return BatchResult(loss, num_correct)
