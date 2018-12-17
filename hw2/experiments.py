@@ -71,7 +71,6 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     dl_train = torch.utils.data.DataLoader(ds_train, batch_size=1000, shuffle=False)
     dl_test = torch.utils.data.DataLoader(ds_test, batch_size=1000, shuffle=False)
     fit_res = trainer.fit(dl_train, dl_test, epochs, early_stopping=early_stopping, print_every=1)
-
     # ========================
 
     save_experiment(run_name, out_dir, cfg, fit_res)

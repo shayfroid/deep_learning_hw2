@@ -78,13 +78,13 @@ class Trainer(abc.ABC):
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
             avg_loss = sum(train_er.losses)/len(train_er.losses)
             train_loss.append(avg_loss)
-            train_acc.append(train_er.accuracy)
+            train_acc.append(train_er.accuracy.item())
 
             test_er = self.test_epoch(dl_test)
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
             avg_loss = sum(test_er.losses)/ len(test_er.losses)
-            test_loss.append(avg_loss)
-            test_acc.append(test_er.accuracy)
+            test_loss.append(avg_loss.item())
+            test_acc.append(test_er.accuracy.item())
 
             improved = best_acc < test_er.accuracy
 
@@ -102,7 +102,6 @@ class Trainer(abc.ABC):
                         break
 
             # ========================
-
         return FitResult(actual_num_epochs,
                          train_loss, train_acc, test_loss, test_acc)
 
