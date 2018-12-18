@@ -59,7 +59,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     #  for you automatically.
     fit_res = None
     # ====== YOUR CODE: ======
-    x0, _ = ds_train[0];
+    x0, _ = ds_train[0]
     insize = x0.shape
     num_classes = 10
 
@@ -74,6 +74,9 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     # ========================
 
     save_experiment(run_name, out_dir, cfg, fit_res)
+
+    return fit_res.test_acc[-1],fit_res.train_acc[-1]
+
 
 
 def save_experiment(run_name, out_dir, config, fit_res):
@@ -156,10 +159,42 @@ def parse_cli():
         sys.exit()
     return parsed
 
+def cross():
+    learn_rates=[1.0000e-04, 3.5112e-04, 1.2328e-03, 4.3288e-03, 1.5199e-02, 5.3367e-02,
+        1.8738e-01, 6.5793e-01, 2.3101e+00, 8.1113e+00, 2.8480e+01, 1.0000e+02]
+    batchsizes=[100,250,500,1000]
+    regs=[1.0000e-04, 3.7276e-04, 1.3895e-03, 5.1795e-03, 1.9307e-02, 7.1969e-02,
+        2.6827e-01, 1.0000e+00]
+    filters=[32,64,128,256,512]
+    layers=[1,2,4,6,8]
+    pools=[2,3,4,5,6]
+    hiddens=[56,128,256,512,1024]
+    with open("./CROSS_VAL_RESULTS", 'w') as f:
+        for lr in learn_rates:
+            for bs in batchsizes:
+                for reg in regs:
+                    for filt in filters:
+                        for L in layers:
+                            for P in pools:
+                                for H in hiddens:
+                                    try:
+                                        run_name="CR_VAL"+"_LR_"+str(lr)+"_BS_"+str(bs)+"_FILT_"+str(filt)+"_L_"+str(L)+"_P_"+str(P)+"_H_"+str(H)
+                                        res=run_experiment(run_name, out_dir='./results', seed=None,
+                                                       # Training params
+                                                       bs_train=bs, bs_test=int(bs/5), batches=100, epochs=100,
+                                                       early_stopping=3, checkpoints=None, lr=lr, reg=reg,
+                                                       # Model params
+                                                       filters_per_layer=[filt], layers_per_block=L, pool_every=P,
+                                                       hidden_dims=[H], ycn=False)
+                                        print(run_name, "\nLast test acc ",res[0],"\nLast train acc ",res[1],"\n",file=f)
+                                        print("\n\n***********\n\n",run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n","\n\n***********\n\n")
+                                    except:
+                                        pass
 
 if __name__ == '__main__':
-    parsed_args = parse_cli()
-    subcmd_fn = parsed_args.subcmd_fn
-    del parsed_args.subcmd_fn
-    print(f'*** Starting {subcmd_fn.__name__} with config:\n{parsed_args}')
-    subcmd_fn(**vars(parsed_args))
+    # parsed_args = parse_cli()
+    # subcmd_fn = parsed_args.subcmd_fn
+    # del parsed_args.subcmd_fn
+    # print(f'*** Starting {subcmd_fn.__name__} with config:\n{parsed_args}')
+    print("Starting")
+    cross()
