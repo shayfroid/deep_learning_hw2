@@ -65,11 +65,11 @@ def run_experiment(run_name, out_dir='./results', seed=None,
 
     model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block, pool_every=pool_every, hidden_dims=hidden_dims)
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=1e-2, momentum=0.9, )
+    optimizer = torch.optim.ASGD(model.parameters(), lr=lr,weight_decay=reg)
     trainer = training.TorchTrainer(model, loss_fn, optimizer, device=device)
 
-    dl_train = torch.utils.data.DataLoader(ds_train, batch_size=1000, shuffle=False)
-    dl_test = torch.utils.data.DataLoader(ds_test, batch_size=1000, shuffle=False)
+    dl_train = torch.utils.data.DataLoader(ds_train, batch_size=bs_train, shuffle=False)
+    dl_test = torch.utils.data.DataLoader(ds_test, batch_size=bs_test, shuffle=False)
     fit_res = trainer.fit(dl_train, dl_test, epochs, early_stopping=early_stopping, print_every=1)
     # ========================
 
@@ -131,7 +131,7 @@ def parse_cli():
                              'accuracy improves', default=None)
     sp_exp.add_argument('--lr', type=float,
                         help='Learning rate', default=1e-3)
-    sp_exp.add_argument('--reg', type=int,
+    sp_exp.add_argument('--reg', type=float,
                         help='L2 regularization', default=1e-3)
 
     # # Model
