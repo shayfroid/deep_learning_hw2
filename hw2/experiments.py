@@ -160,15 +160,13 @@ def parse_cli():
     return parsed
 
 def cross():
-    learn_rates=[1.0000e-05,1.0000e-04, 3.5112e-04, 1.2328e-03, 4.3288e-03, 1.5199e-02, 5.3367e-02,
-        1.8738e-01, 6.5793e-01, 2.3101e+00, 8.1113e+00, 2.8480e+01, 1.0000e+02]
-    batchsizes=[100,250,500,1000]
-    regs=[1.0000e-04, 3.7276e-04, 1.3895e-03, 5.1795e-03, 1.9307e-02, 7.1969e-02,
-        2.6827e-01, 1.0000e+00]
-    filters=[32,64,128,256,512]
-    layers=[1,2,4,6,8]
-    pools=[2,3,4,5,6]
-    hiddens=[56,128,256,512,1024]
+    learn_rates=[0.0015]
+    batchsizes=[500,1000]
+    regs=[2.0000e-04]
+    filters=[64,256,512]
+    layers=[1,2,4,8]
+    pools=[2,3,4]
+    hiddens=[256,512,1024]
     with open("./CROSS_VAL_RESULTS", 'a+') as f:
         for bs in batchsizes:
             for filt in filters:
@@ -187,7 +185,7 @@ def cross():
                                                              filters_per_layer=[filt], layers_per_block=L, pool_every=P,
                                                              hidden_dims=[H], ycn=False)
                                         print(run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n", file=f)
-                                        print("\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",res[1], "\n", "\n\n***********\n\n", file=open("./res", "a+"))
+                                        print("\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",res[1], "\n", "\n\n***********\n\n", file=open("./res2", "a+"))
                                         print("\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",res[1], "\n", "\n\n***********\n\n")
                                         f.write("\n\n***********\n\n", run_name, "\nLast test acc ", res[0],"\nLast train acc ", res[1], "\n", "\n\n***********\n\n")
                                     except:
