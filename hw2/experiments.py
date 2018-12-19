@@ -178,16 +178,7 @@ def cross():
                             for lr in learn_rates:
                                 for reg in regs:
                                     try:
-                                        run_name = "CR_VAL" + "_LR_" + str(lr) + "_REG_" + str(reg) + _BS_
-                                        "+str(bs)+"
-                                        _FILT_
-                                        "+str(filt)+"
-                                        _L_
-                                        "+str(L)+"
-                                        _P_
-                                        "+str(P)+"
-                                        _H_
-                                        "+str(H)
+                                        run_name = "CR_VAL" + "_LR_" + str(lr) + "_REG_" + str(reg) + "_BS_"+str(bs)+"_FILT_"+str(filt)+"_L_"+str(L)+"_P_"+str(P)+"_H_"+str(H)
                                         res = run_experiment(run_name, out_dir='./results', seed=None,
                                                              # Training params
                                                              bs_train=bs, bs_test=int(bs / 5), batches=100, epochs=100,
@@ -195,16 +186,10 @@ def cross():
                                                              # Model params
                                                              filters_per_layer=[filt], layers_per_block=L, pool_every=P,
                                                              hidden_dims=[H], ycn=False)
-                                        print(run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n", file
-                                              =f)
-                                        print(
-                                        "\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",
-                                        res[1], "\n", "\n\n***********\n\n", file=open("./res", "a+"))
-                                        print(
-                                        "\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",
-                                        res[1], "\n", "\n\n***********\n\n")
-                                        f.write("\n\n***********\n\n", run_name, "\nLast test acc ", res[0],
-                                                "\nLast train acc ", res[1], "\n", "\n\n***********\n\n")
+                                        print(run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n", file=f)
+                                        print("\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",res[1], "\n", "\n\n***********\n\n", file=open("./res", "a+"))
+                                        print("\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",res[1], "\n", "\n\n***********\n\n")
+                                        f.write("\n\n***********\n\n", run_name, "\nLast test acc ", res[0],"\nLast train acc ", res[1], "\n", "\n\n***********\n\n")
                                     except:
                                         print("\n\n***********\n\n", run_name, " except \n", "\n\n***********\n\n")
                                         pass            
