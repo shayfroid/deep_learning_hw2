@@ -169,29 +169,45 @@ def cross():
     layers=[1,2,4,6,8]
     pools=[2,3,4,5,6]
     hiddens=[56,128,256,512,1024]
-    with open("./CROSS_VAL_RESULTS", 'w') as f:
-        for lr in learn_rates:
-            for bs in batchsizes:
-                for reg in regs:
-                    for filt in filters:
-                        for L in layers:
-                            for P in pools:
-                                for H in hiddens:
+    with open("./CROSS_VAL_RESULTS", 'a+') as f:
+        for bs in batchsizes:
+            for filt in filters:
+                for L in layers:
+                    for P in pools:
+                        for H in hiddens:
+                            for lr in learn_rates:
+                                for reg in regs:
                                     try:
-                                        run_name="CR_VAL"+"_LR_"+str(lr)+"_REG_"+str(reg)+_BS_"+str(bs)+"_FILT_"+str(filt)+"_L_"+str(L)+"_P_"+str(P)+"_H_"+str(H)
-                                        res=run_experiment(run_name, out_dir='./results', seed=None,
-                                                       # Training params
-                                                       bs_train=bs, bs_test=int(bs/5), batches=100, epochs=100,
-                                                       early_stopping=3, checkpoints=None, lr=lr, reg=reg,
-                                                       # Model params
-                                                       filters_per_layer=[filt], layers_per_block=L, pool_every=P,
-                                                       hidden_dims=[H], ycn=False)
-                                        print(run_name, "\nLast test acc ",res[0],"\nLast train acc ",res[1],"\n",file=f)
-                                        print("\n\n***********\n\n",run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n","\n\n***********\n\n",file=open("./res","w"))
-                                        print("\n\n***********\n\n",run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n","\n\n***********\n\n")
+                                        run_name = "CR_VAL" + "_LR_" + str(lr) + "_REG_" + str(reg) + _BS_
+                                        "+str(bs)+"
+                                        _FILT_
+                                        "+str(filt)+"
+                                        _L_
+                                        "+str(L)+"
+                                        _P_
+                                        "+str(P)+"
+                                        _H_
+                                        "+str(H)
+                                        res = run_experiment(run_name, out_dir='./results', seed=None,
+                                                             # Training params
+                                                             bs_train=bs, bs_test=int(bs / 5), batches=100, epochs=100,
+                                                             early_stopping=3, checkpoints=None, lr=lr, reg=reg,
+                                                             # Model params
+                                                             filters_per_layer=[filt], layers_per_block=L, pool_every=P,
+                                                             hidden_dims=[H], ycn=False)
+                                        print(run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n", file
+                                              =f)
+                                        print(
+                                        "\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",
+                                        res[1], "\n", "\n\n***********\n\n", file=open("./res", "a+"))
+                                        print(
+                                        "\n\n***********\n\n", run_name, "\nLast test acc ", res[0], "\nLast train acc ",
+                                        res[1], "\n", "\n\n***********\n\n")
+                                        f.write("\n\n***********\n\n", run_name, "\nLast test acc ", res[0],
+                                                "\nLast train acc ", res[1], "\n", "\n\n***********\n\n")
                                     except:
-                                        print("\n\n***********\n\n",run_name, " except \n","\n\n***********\n\n")
-                                        pass
+                                        print("\n\n***********\n\n", run_name, " except \n", "\n\n***********\n\n")
+                                        pass            
 
 if __name__ == '__main__':
     # parsed_args = parse_cli()
