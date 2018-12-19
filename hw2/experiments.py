@@ -65,7 +65,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
 
     model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block, pool_every=pool_every, hidden_dims=hidden_dims)
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.ASGD(model.parameters(), lr=lr,weight_decay=reg)
+    optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=reg)
     trainer = training.TorchTrainer(model, loss_fn, optimizer, device=device)
 
     dl_train = torch.utils.data.DataLoader(ds_train, batch_size=bs_train, shuffle=False)
@@ -160,7 +160,7 @@ def parse_cli():
     return parsed
 
 def cross():
-    learn_rates=[1.0000e-04, 3.5112e-04, 1.2328e-03, 4.3288e-03, 1.5199e-02, 5.3367e-02,
+    learn_rates=[1.0000e-05,1.0000e-04, 3.5112e-04, 1.2328e-03, 4.3288e-03, 1.5199e-02, 5.3367e-02,
         1.8738e-01, 6.5793e-01, 2.3101e+00, 8.1113e+00, 2.8480e+01, 1.0000e+02]
     batchsizes=[100,250,500,1000]
     regs=[1.0000e-04, 3.7276e-04, 1.3895e-03, 5.1795e-03, 1.9307e-02, 7.1969e-02,
@@ -187,8 +187,10 @@ def cross():
                                                        filters_per_layer=[filt], layers_per_block=L, pool_every=P,
                                                        hidden_dims=[H], ycn=False)
                                         print(run_name, "\nLast test acc ",res[0],"\nLast train acc ",res[1],"\n",file=f)
+                                        print("\n\n***********\n\n",run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n","\n\n***********\n\n",file=open("./res","w"))
                                         print("\n\n***********\n\n",run_name, "\nLast test acc ", res[0], "\nLast train acc ", res[1], "\n","\n\n***********\n\n")
                                     except:
+                                        print("\n\n***********\n\n",run_name, " except \n","\n\n***********\n\n")
                                         pass
 
 if __name__ == '__main__':
