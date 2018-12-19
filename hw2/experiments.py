@@ -178,7 +178,7 @@ def cross():
                             for P in pools:
                                 for H in hiddens:
                                     try:
-                                        run_name="CR_VAL"+"_LR_"+str(lr)+"_BS_"+str(bs)+"_FILT_"+str(filt)+"_L_"+str(L)+"_P_"+str(P)+"_H_"+str(H)
+                                        run_name="CR_VAL"+"_LR_"+str(lr)+"_REG_"+str(reg)+_BS_"+str(bs)+"_FILT_"+str(filt)+"_L_"+str(L)+"_P_"+str(P)+"_H_"+str(H)
                                         res=run_experiment(run_name, out_dir='./results', seed=None,
                                                        # Training params
                                                        bs_train=bs, bs_test=int(bs/5), batches=100, epochs=100,
