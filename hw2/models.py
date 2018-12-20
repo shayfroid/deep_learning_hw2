@@ -168,7 +168,7 @@ class YourCodeNet(ConvClassifier):
                 in_channels = self.filters[conv_num]
                 conv_num += 1
                 layers.append(torch.nn.ReLU())
-            layers.append(torch.nn.FractionalMaxPool2d(3, output_ratio=0.70711)
+            layers.append(torch.nn.FractionalMaxPool2d(3, output_ratio=0.70711))
         layers.append(torch.nn.Conv2d(in_channels, in_channels, 4))
         layers.append(torch.nn.ReLU())                  
         layers.append(torch.nn.Conv2d(in_channels, in_channels, 8))     
