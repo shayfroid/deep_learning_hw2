@@ -207,7 +207,7 @@ class YourCodeNet(ConvClassifier):
         conv_num = 1
         for i in range(int(len(self.filters)/self.pool_every)):
             for j in range(self.pool_every):
-                layers.append(torch.nn.Conv2d(in_channels, 300*conv_num, 3, stride=1, padding=1))
+                layers.append(torch.nn.Conv2d(in_channels, 160*conv_num, 3, stride=1, padding=1))
                 in_channels = 300*conv_num
                 conv_num += 1
                 layers.append(torch.nn.ReLU())
