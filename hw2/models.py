@@ -184,6 +184,8 @@ class YourCodeNet(ConvClassifier):
         # return class scores.
         # ====== YOUR CODE: ======
         fe = self.feature_extractor(x)
+        print(fe.shape,fe)
         out = fe.view(fe.size(0), -1)
+        print(out)
         # ========================
         return out
