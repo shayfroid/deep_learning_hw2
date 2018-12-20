@@ -155,25 +155,6 @@ class ConvClassifier(nn.Module):
 class YourCodeNet(ConvClassifier):
     def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
         super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
-
-    def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
-        """
-        :param in_size: Size of input images, e.g. (C,H,W).
-        :param out_classes: Number of classes to output in the final layer.
-        :param filters: A list of of length N containing the number of
-            filters in each conv layer.
-        :param pool_every: P, the number of conv layers before each max-pool.
-        :param hidden_dims: List of of length M containing hidden dimensions of
-            each Linear layer (not including the output layer).
-        """
-        super().__init__()
-        self.in_size = in_size
-        self.out_classes = out_classes
-        self.filters = filters
-        self.pool_every = pool_every
-        self.hidden_dims = hidden_dims
-
-        self.feature_extractor = self._make_feature_extractor()
         
     def _make_feature_extractor(self):
         in_channels, in_h, in_w, = tuple(self.in_size)
@@ -197,7 +178,10 @@ class YourCodeNet(ConvClassifier):
         # ========================
         seq = nn.Sequential(*layers)
         return seq
-
+                          
+    def _make_classifier(self):
+        return None
+                          
     def forward(self, x):
         # TODO: Implement the forward pass.
         # Extract features from the input, run the classifier on them and
