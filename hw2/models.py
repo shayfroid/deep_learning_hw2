@@ -172,7 +172,9 @@ class YourCodeNet(ConvClassifier):
         layers.append(torch.nn.Conv2d(in_channels, in_channels, 4))
         layers.append(torch.nn.ReLU())                  
         layers.append(torch.nn.Conv2d(in_channels, in_channels, 8))     
-        layers.append(torch.nn.ReLU())                  
+        layers.append(torch.nn.ReLU())
+        layers.append(torch.nn.Conv2d(in_channels, in_channels, 11))     
+        layers.append(torch.nn.ReLU())    
         layers.append(torch.nn.Conv2d(in_channels, 10, 1))
 
         # ========================
@@ -188,8 +190,8 @@ class YourCodeNet(ConvClassifier):
         # return class scores.
         # ====== YOUR CODE: ======
         fe = self.feature_extractor(x)
-        #print(fe.shape)
-        #out = fe.view(fe.size(0), -1)
-        #print(out.shape)
+        print(fe.shape)
+        out = fe.view(fe.size(0), -1)
+        print(out.shape)
         # ========================
-        return fe
+        return out
