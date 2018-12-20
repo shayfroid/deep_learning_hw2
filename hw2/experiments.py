@@ -193,9 +193,8 @@ def cross():
                                         pass            
 
 if __name__ == '__main__':
-    # parsed_args = parse_cli()
-    # subcmd_fn = parsed_args.subcmd_fn
-    # del parsed_args.subcmd_fn
-    # print(f'*** Starting {subcmd_fn.__name__} with config:\n{parsed_args}')
-    print("Starting")
-    cross()
+    parsed_args = parse_cli()
+    subcmd_fn = parsed_args.subcmd_fn
+    del parsed_args.subcmd_fn
+    print(f'*** Starting {subcmd_fn.__name__} with config:\n{parsed_args}')
+    subcmd_fn(**vars(parsed_args))
