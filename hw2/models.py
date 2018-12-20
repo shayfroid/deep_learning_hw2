@@ -160,10 +160,6 @@ class YourCodeNet(ConvClassifier):
         in_channels, in_h, in_w, = tuple(self.in_size)
 
         layers = []
-        # TODO: Create the feature extractor part of the model:
-        # [(Conv -> ReLU)*P -> MaxPool]*(N/P)
-        # Use only dimension-preserving 3x3 convolutions. Apply 2x2 Max
-        # Pooling to reduce dimensions.
         # ====== YOUR CODE: ======
         conv_num = 0
         for i in range(int(len(self.filters)/self.pool_every)):
@@ -173,7 +169,7 @@ class YourCodeNet(ConvClassifier):
                 conv_num += 1
                 layers.append(torch.nn.ReLU())
             layers.append(torch.nn.FractionalMaxPool2d(3, output_ratio=(1/torch.sqrt(2)))
-        layers.append(torch.nn.Conv2d(in_channels, 10, 3, stride=1, padding=1))
+        layers.append(torch.nn.Conv2d(in_channels, 10, 1))
 
         # ========================
         seq = nn.Sequential(*layers)
