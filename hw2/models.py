@@ -189,7 +189,7 @@ class YourCodeNet(ConvClassifier):
         # ====== YOUR CODE: ======
         fe = self.feature_extractor(x)
         print(fe.shape)
-        out = fe.view(fe.size(0), -1)
-        print(out.shape)
+        #out = fe.view(fe.size(0), -1)
+        #print(out.shape)
         # ========================
         return out
