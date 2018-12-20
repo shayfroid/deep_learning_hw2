@@ -152,7 +152,7 @@ class ConvClassifier(nn.Module):
         return out
 
 
-class YourCodeNet(ConvClassifier):
+class YourCodeNet2(ConvClassifier):
     def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
         super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
         
@@ -189,5 +189,64 @@ class YourCodeNet(ConvClassifier):
         print(fe.shape)
         out = fe.view(fe.size(0), -1)
         print(out.shape)
+        # ========================
+        return out
+    
+class YourCodeNet(ConvClassifier):
+    def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
+        super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
+    def _make_feature_extractor(self):
+        in_channels, in_h, in_w, = tuple(self.in_size)
+
+        layers = []
+        # TODO: Create the feature extractor part of the model:
+        # [(Conv -> ReLU)*P -> MaxPool]*(N/P)
+        # Use only dimension-preserving 3x3 convolutions. Apply 2x2 Max
+        # Pooling to reduce dimensions.
+        # ====== YOUR CODE: ======
+        conv_num = 1
+        for i in range(int(len(self.filters)/self.pool_every)):
+            for j in range(self.pool_every):
+                layers.append(torch.nn.Conv2d(in_channels, 300*conv_num, 3, stride=1, padding=1))
+                in_channels = 300*conv_num
+                conv_num += 1
+                layers.append(torch.nn.ReLU())
+            layers.append(torch.nn.MaxPool2d((2, 2), dilation=1))
+            in_h = int(in_h/2)
+            in_w = int(in_w/2)
+        self.in_size = (in_channels, in_h, in_w)
+
+        # ========================
+        seq = nn.Sequential(*layers)
+        return seq
+
+    def _make_classifier(self):
+        in_channels, in_h, in_w, = tuple(self.in_size)
+
+        layers = []
+        # TODO: Create the classifier part of the model:
+        # (Linear -> ReLU)*M -> Linear
+        # You'll need to calculate the number of features first.
+        # The last Linear layer should have an output dimension of out_classes.
+        # ====== YOUR CODE: ======
+        print(self.in_size)
+        in_features = in_h*in_channels*in_w
+        for hd in self.hidden_dims:
+             layers.append(torch.nn.Linear(in_features,hd))
+             in_features = hd
+             layers.append(torch.nn.ReLU())
+        layers.append(torch.nn.Linear(in_features, self.out_classes))
+        # ========================
+        seq = nn.Sequential(*layers)
+        return seq
+
+    def forward(self, x):
+        # TODO: Implement the forward pass.
+        # Extract features from the input, run the classifier on them and
+        # return class scores.
+        # ====== YOUR CODE: ======
+        fe = self.feature_extractor(x)
+        fe = fe.view(fe.size(0), -1)
+        out = self.classifier(fe)
         # ========================
         return out
