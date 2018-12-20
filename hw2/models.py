@@ -168,7 +168,11 @@ class YourCodeNet(ConvClassifier):
                 in_channels = self.filters[conv_num]
                 conv_num += 1
                 layers.append(torch.nn.ReLU())
-            layers.append(torch.nn.FractionalMaxPool2d(3, output_ratio=0.70711))
+            layers.append(torch.nn.FractionalMaxPool2d(3, output_ratio=0.70711)
+        layers.append(torch.nn.Conv2d(in_channels, in_channels, 4))
+        layers.append(torch.nn.ReLU())                  
+        layers.append(torch.nn.Conv2d(in_channels, in_channels, 8))     
+        layers.append(torch.nn.ReLU())                  
         layers.append(torch.nn.Conv2d(in_channels, 10, 1))
 
         # ========================
@@ -184,8 +188,8 @@ class YourCodeNet(ConvClassifier):
         # return class scores.
         # ====== YOUR CODE: ======
         fe = self.feature_extractor(x)
-        print(fe.shape,fe)
+        print(fe.shape)
         out = fe.view(fe.size(0), -1)
-        print(out)
+        print(out.shape)
         # ========================
         return out
