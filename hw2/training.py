@@ -74,13 +74,13 @@ class Trainer(abc.ABC):
             #   simple regularization technique that is highly recommended.
             # ====== YOUR CODE: ======
 
-            train_er = self.train_epoch(dl_train)
+            train_er = self.train_epoch(dl_train, **kw)
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
             avg_loss = sum(train_er.losses)/len(train_er.losses)
             train_loss.append(avg_loss)
             train_acc.append(train_er.accuracy.item())
 
-            test_er = self.test_epoch(dl_test)
+            test_er = self.test_epoch(dl_test, **kw)
             # TODO ask how to calculate the loss. Is it suppose to be a single value (last? avg?_ or the entire list?
             avg_loss = sum(test_er.losses)/ len(test_er.losses)
             test_loss.append(avg_loss.item())

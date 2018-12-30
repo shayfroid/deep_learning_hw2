@@ -28,10 +28,10 @@ def part2_optim_hp():
     # You may want to use different learning rates for each optimizer.
     # ====== YOUR CODE: ======
     wstd = 0.1
-    lr_vanilla = 4e-4
-    reg = 0.01
-    lr_momentum = 1e-4
-    lr_rmsprop =1e-4
+    lr_vanilla = 0.01
+    reg = 0.0001
+    lr_momentum = 0.0015
+    lr_rmsprop =0.0001
     # ========================
     return dict(wstd=wstd, lr_vanilla=lr_vanilla, lr_momentum=lr_momentum,
                 lr_rmsprop=lr_rmsprop, reg=reg)
@@ -43,22 +43,24 @@ def part2_dropout_hp():
     # dropout.
     # ====== YOUR CODE: ======
     wstd = 0.1
-    lr = 0.05
-    reg = 0.1
+    lr = 5e-4
     # ========================
     return dict(wstd=wstd, lr=lr)
 
 
 part2_q1 = r"""
 **Your answer:**
+The key features of the results match what we expected to see. With no dropout and such a small training set we
+obviously overfit the training data very fast and get good train accuracy. As expected with overfitted data, the test
+results are not impressive.
 
+For dropout = 0.4: it fits what we expected to see. the dropout acts as an overfit remedy and the results are more balanced
+with 71% acc for train and 27% for test. Here we expected to see a bt more improvement in the test acc result but we
+assume the small test accuracy improvement is arising from not tuned enough hiperparameters.
 
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+for dropout of 0.8: exactly as expected. 0.8 means that with 80% chance we "forget" everything that we learn
+so a big drop in train accuracy was expected (dropped to 30%).
+The drop of test was also expected since we effectively have no learning what so ever.
 
 """
 
