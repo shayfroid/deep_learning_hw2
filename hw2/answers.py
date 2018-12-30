@@ -65,13 +65,10 @@ An equation: $e^{i\pi} -1 = 0$
 part2_q2 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+There is a possibility that the classification probability for the samples which are not predicted (and are wrong) increases.
+For example if a picture of a horse that is predicted 0.4 horse and 0.3 dog in the first epoch will be predicted 0.8 horse and 0.5 dog
+in the second epoch, the loss will be higher and the accuracy will stay the same, if you add in a cat which was predicted 0.5 dog and 0.4 cat
+in the first epoch, and in the second will be predicted 0.4 dog and 0.5 cat, the accuracy and the loss will both increase. 
 
 """
 # ==============
@@ -82,39 +79,38 @@ An equation: $e^{i\pi} -1 = 0$
 part3_q1 = r"""
 **Your answer:**
 
+The depth affects the accuracy because it expands the expressiveness of the network, if all calculations are smooth, we should be able to overfit the model
+better with a deeper network, but we can see this isn't the case here.
+The best results were encountered using a depth of 2.
+The networks with depth 4 and 8 were unable to train.
+This is because we experience a vanshing gradient; the deepest layers learn faster, and after they reach their minimum they backpropogate
+a gradient which can no longer be optimized (a close to zero gradient).
+The inputs to the deeper layers are a sum of the ones to the shallow layers, so as we get deeper the weights are much bigger, when backpropogating 
+the gradient, the effect on the small weights of the shallow layers is minimal.
 
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+In order to eliminate there vanishing gradients, we can try to add batch normalization, to keep all weights similar, or to initialize the weights
+with a smaller variance as a function of the number of inputs.
 
 """
 
 part3_q2 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+Here we again see that L8 was not able to train.
+We can also see that more filters give us a better accuracy in every iteration. This can be explained because more filters give 
+us more learnable parameters, so we are able to learn more from each run, thus we are more accurate in classification.
+These extra learnable parameters also show in the test loss, where we can see in the last epochs that the loss is increasing, and the 
+slope of increase is bigger for more filters. This is because more filters give us more of a chance to overfit.
 
 """
 
 part3_q3 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+In this experiment we are observing layers with increasing filters per layer. In a network like this, the first layer picks up the rougher features,
+and going deeper the layers pick up finer and finer features.
+We also notice the number of epochs to train was lower than the first two experiments.
+Again, when the network is too deep we are unable to train it, due to similar issues as in experiment 1.1, and the best results are seen in the more shallow network.
 
 """
 
@@ -123,12 +119,11 @@ part3_q4 = r"""
 **Your answer:**
 
 
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+We added a dropout layer and batch normalization. Dropout improves generalization by adding randomness and prevents overfitting.
+Batch normalization increases the stability of the calculation and makes it much faster.
+We can see that adding these gave us much faster training times.
+In the deeper models we are actually able to train as the normalization makes all of our calculations have stable values, and we do not
+have vanishing gradients because of this.
 
 """
 # ==============
