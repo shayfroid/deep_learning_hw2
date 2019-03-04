@@ -58,37 +58,13 @@ source $CONDA_HOME/etc/profile.d/conda.sh
 conda activate $CONDA_ENV
 
 # Run python with the args to the script
-python -m hw2.experiments run-exp -n exp1_1_K32_L2 -K 32 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_1_K32_L4 -K 32 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_1_K32_L6 -K 32 -L 6 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_1_K32_L8 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015
+python -m hw2.experiments run-exp -n exp1_R0 -K 32 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015 --ycn --rounding 0
+python -m hw2.experiments run-exp -n exp1_R1 -K 32 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 1
+python -m hw2.experiments run-exp -n exp1_R2 -K 32 -L 6 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 2
+python -m hw2.experiments run-exp -n exp1_R100 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 100
+python -m hw2.experiments run-exp -n exp1_R1000 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 1000
 
-python -m hw2.experiments run-exp -n exp1_1_K64_L2 -K 64 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_1_K64_L4 -K 64 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_1_K64_L6 -K 64 -L 6 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_1_K64_L8 -K 64 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-
-
-python -m hw2.experiments run-exp -n exp1_2_L2_K32 -K 32 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L2_K64 -K 64 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L2_K128 -K 128 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L2_K256 -K 256 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-
-python -m hw2.experiments run-exp -n exp1_2_L4_K32 -K 32 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L4_K64 -K 64 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L4_K128 -K 128 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L4_K256 -K 256 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-
-python -m hw2.experiments run-exp -n exp1_2_L8_K32 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L8_K64 -K 64 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L8_K128 -K 128 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_2_L8_K256 -K 256 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-
-
-python -m hw2.experiments run-exp -n exp1_3_L1_K64-128-256 -K 64 128 256 -L 1 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_3_L2_K64-128-256 -K 64 128 256 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_3_L3_K64-128-256 -K 64 128 256 -L 3 -P 2 -H 256 --reg 0.0002 --lr 0.0015
-python -m hw2.experiments run-exp -n exp1_3_L4_K64-128-256 -K 64 128 256 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015
+python -m hw2.experiments run-exp -n exp1_LeNet5 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015 
 
 echo "*** SLURM BATCH JOB '$JOB_NAME' DONE ***"
 EOF

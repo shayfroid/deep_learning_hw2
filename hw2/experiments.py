@@ -9,7 +9,7 @@ import torch
 import torchvision
 
 from torch.utils.data import DataLoader
-from torchvision.datasets import MNIST as CIFAR10
+from torchvision.datasets import CIFAR10
 
 from cs236605.train_results import FitResult
 from . import models
@@ -48,7 +48,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Select model class (experiment 1 or 2)
-    model_cls = models.ConvClassifier if not ycn else models.YourCodeNet
+    model_cls = models.LeNet5 if not ycn else models.YourCodeNet
 
     # TODO: Train
     # - Create model, loss, optimizer and trainer based on the parameters.
@@ -63,7 +63,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     insize = x0.shape
     num_classes = 10
 
-    model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block, pool_every=pool_every, hidden_dims=hidden_dims)
+    model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block, pool_every=pool_every, hidden_dims=hidden_dims, **kw)
     print(model)
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=reg)
@@ -149,6 +149,8 @@ def parse_cli():
                         metavar='H', required=True)
     sp_exp.add_argument('--ycn', action='store_true', default=False,
                         help='Whether to use your custom network')
+    sp_exp.add_argument('--rounding', type=int, default=0,
+                        help='Whether to use rounding')
 
     parsed = p.parse_args()
 
