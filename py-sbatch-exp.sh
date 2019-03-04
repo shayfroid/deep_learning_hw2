@@ -58,13 +58,13 @@ source $CONDA_HOME/etc/profile.d/conda.sh
 conda activate $CONDA_ENV
 
 # Run python with the args to the script
-python -m hw2.experiments run-exp -n exp1_R0 -K 32 -L 2 -P 2 -H 256 --reg 0.0002 --lr 0.0015 --ycn --rounding 0
-python -m hw2.experiments run-exp -n exp1_R1 -K 32 -L 4 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 1
-python -m hw2.experiments run-exp -n exp1_R2 -K 32 -L 6 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 2
-python -m hw2.experiments run-exp -n exp1_R100 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 100
-python -m hw2.experiments run-exp -n exp1_R1000 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015 -ycn --rounding 1000
+python -m hw2.experiments run-exp -n exp1_R0 -K 32 -L 2 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 0
+python -m hw2.experiments run-exp -n exp1_R1 -K 32 -L 4 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 1
+python -m hw2.experiments run-exp -n exp1_R2 -K 32 -L 6 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 2
+python -m hw2.experiments run-exp -n exp1_R100 -K 32 -L 8 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 100
+python -m hw2.experiments run-exp -n exp1_R1000 -K 32 -L 8 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 1000
 
-python -m hw2.experiments run-exp -n exp1_LeNet5 -K 32 -L 8 -P 2 -H 256 --reg 0.0002 --lr 0.0015 
+python -m hw2.experiments run-exp -n exp1_LeNet5 -K 32 -L 8 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 
 
 echo "*** SLURM BATCH JOB '$JOB_NAME' DONE ***"
 EOF
