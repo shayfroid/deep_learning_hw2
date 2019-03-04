@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from .blocks import Block, Linear, ReLU, Dropout, Sequential
+from . import layers as vl
 
 
 class MLP(Block):
@@ -160,6 +161,52 @@ class YourCodeNet(ConvClassifier):
         in_channels, in_h, in_w, = tuple(self.in_size)
 
         layers = []
+
+        # ====== YOUR CODE: ======
+        # Conv-BN-Tanh-Pool
+        layers.append(nn.Conv2d(1, 20, 5, padding=0, bias=False))
+        layers.append(nn.BatchNorm2d(20, affine=False))
+        layers.append(nn.ReLU())
+        layers.append(nn.MaxPool2d(2, padding=0))
+
+        # Conv-BN-Tanh-Pool
+        layers.append(nn.BatchNorm2d(20, affine=True))
+        layers.append(nn.ReLU())
+        layers.append(nn.MaxPool2d(2, padding=0))
+        
+        layers.append(vl.FlattenLayer(720))
+
+        # Dense-BN-Tanh
+
+        layers.append(vl.LinearVarianceToy(720, 500, bias=False))
+        layers.append(nn.BatchNorm1d(500, affine=False))
+        layers.append(nn.ReLU())
+
+        # Dense
+        layers.append(nn.Linear(500, 10, bias=False))
+
+        # ========================
+        seq = nn.Sequential(*layers)
+        return seq
+
+    def forward(self, x):
+
+        # ====== YOUR CODE: ======
+        out = self.feature_extractor(x)
+        # ========================
+        return out
+
+    def _make_classifier(self):
+        pass
+
+class YourCodeNet1(ConvClassifier):
+    def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
+        super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
+
+    def _make_feature_extractor(self):
+        in_channels, in_h, in_w, = tuple(self.in_size)
+
+        layers = []
         # TODO: Create the feature extractor part of the model:
         # [(Conv -> ReLU)*P -> MaxPool]*(N/P)
         # Use only dimension-preserving 3x3 convolutions. Apply 2x2 Max
@@ -192,11 +239,12 @@ class YourCodeNet(ConvClassifier):
         # The last Linear layer should have an output dimension of out_classes.
         # ====== YOUR CODE: ======
         in_features = in_h*in_channels*in_w
+        layers.append(torch.nn.Linear(in_features, 100))
+        layers.append(vl.LinearVariance(100,in_features,bias=False))
         for hd in self.hidden_dims:
              layers.append(torch.nn.Linear(in_features,hd))
              in_features = hd
              layers.append(torch.nn.ReLU())
-             layers.append(torch.nn.Dropout(0.5))
         layers.append(torch.nn.Linear(in_features, self.out_classes))
         # ========================
         seq = nn.Sequential(*layers)

@@ -9,7 +9,7 @@ import torch
 import torchvision
 
 from torch.utils.data import DataLoader
-from torchvision.datasets import CIFAR10
+from torchvision.datasets import MNIST as CIFAR10
 
 from cs236605.train_results import FitResult
 from . import models
@@ -64,6 +64,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     num_classes = 10
 
     model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block, pool_every=pool_every, hidden_dims=hidden_dims)
+    print(model)
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=reg)
     trainer = training.TorchTrainer(model, loss_fn, optimizer, device=device)
