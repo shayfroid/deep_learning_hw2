@@ -189,7 +189,7 @@ class YourCodeNet(ConvClassifier):
         layers = []
         # Dense-BN-Tanh
         in_features = in_h*in_channels*in_w
-        layers.append(vl.LinearVariance(in_features, 500, bias=False, rounding = self.rounding))
+        layers.append(vl.LinearVarianceUnif(in_features, 500, bias=False, rounding = self.rounding))
         in_features=500
         layers.append(nn.BatchNorm1d(in_features, affine=False))
         layers.append(nn.ReLU())
@@ -209,6 +209,61 @@ class YourCodeNet(ConvClassifier):
         # ========================
         return out
 
+class YourCodeNet1(ConvClassifier):
+    def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims, rounding = 0):
+        self.rounding=rounding
+        super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
+
+    def _make_feature_extractor(self):
+        in_channels, in_h, in_w, = tuple(self.in_size)
+
+        layers = []
+
+        # ====== YOUR CODE: ======
+        # Conv-BN-Tanh-Pool
+        layers.append(nn.Conv2d(in_channels, 20, 3, padding=1, stride=1 , bias=False))
+        in_channels=20
+        layers.append(nn.BatchNorm2d(in_channels, affine=False))
+        layers.append(nn.ReLU())
+        layers.append(torch.nn.MaxPool2d((2, 2), dilation=1))
+        in_h = int(in_h/2)
+        in_w = int(in_w/2)
+        
+        # Conv-BN-Tanh-Pool
+        layers.append(nn.BatchNorm2d(in_channels, affine=True))
+        layers.append(nn.ReLU())
+        layers.append(torch.nn.MaxPool2d((2, 2), dilation=1))
+        in_h = int(in_h/2)
+        in_w = int(in_w/2)
+            
+        self.in_size = (in_channels, in_h, in_w)
+        seq = nn.Sequential(*layers)
+        return seq
+
+    def _make_classifier(self):
+        in_channels, in_h, in_w, = tuple(self.in_size)
+        layers = []
+        # Dense-BN-Tanh
+        in_features = in_h*in_channels*in_w
+        layers.append(vl.LinearVariance(in_features, 500, bias=False, rounding = self.rounding))
+        in_features=500
+        layers.append(nn.BatchNorm1d(in_features, affine=False))
+        layers.append(nn.ReLU())
+
+        # Dense
+        layers.append(nn.Linear(in_features, self.out_classes, bias=False))
+        
+        seq = nn.Sequential(*layers)
+        return seq
+    
+    def forward(self, x):
+
+        # ====== YOUR CODE: ======
+        fe = self.feature_extractor(x)
+        fe = fe.view(fe.size(0), -1)
+        out = self.classifier(fe)
+        # ========================
+        return out
 
 class LeNet5(ConvClassifier):
     def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims, rounding = 0):

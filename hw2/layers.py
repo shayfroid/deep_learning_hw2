@@ -162,9 +162,10 @@ class LinearVarianceBe(ModuleWrapper):
 
 class LinearVarianceUnif(ModuleWrapper):
 
-    def __init__(self, in_features, out_features, bias=True):
+    def __init__(self, in_features, out_features, bias=True, rounding =0):
         super(LinearVarianceUnif, self).__init__()
         self.in_features = in_features
+        self.rounding = rounding
         self.out_features = out_features
         self.W = Parameter(torch.Tensor(out_features, in_features))
         if bias:
@@ -183,7 +184,9 @@ class LinearVarianceUnif(ModuleWrapper):
         if self.training:
             eps = Variable(self.W.data.new(self.W.size()).uniform_() - 0.5)
         else:
-            eps = 0.0
+            eps = self.W.data.new(self.W.size()).uniform_() - 0.5
+        if self.rounding:
+            eps = torch.round(eps * self.rounding)/self.rounding
         output = F.linear(x, self.W*eps)
         if self.bias is not None:
             output = output + self.bias
@@ -193,7 +196,8 @@ class LinearVarianceUnif(ModuleWrapper):
         return self.__class__.__name__ + '(' \
                + 'in_features=' + str(self.in_features) \
                + ', out_features=' + str(self.out_features) \
-               + ', bias=' + str(self.bias is not None) + ')'
+               + ', bias=' + str(self.bias is not None)  \
+               + ', rounding='+str(self.rounding) + ')'
 
 
 class LinearVarianceDiscrete(ModuleWrapper):

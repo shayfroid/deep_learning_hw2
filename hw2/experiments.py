@@ -9,7 +9,7 @@ import torch
 import torchvision
 
 from torch.utils.data import DataLoader
-from torchvision.datasets import CIFAR10
+from torchvision.datasets import MNIST as CIFAR10
 
 from cs236605.train_results import FitResult
 from . import models
