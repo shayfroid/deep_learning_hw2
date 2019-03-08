@@ -66,7 +66,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     model = model_cls(insize, num_classes, filters=filters_per_layer*layers_per_block, pool_every=pool_every, hidden_dims=hidden_dims, **kw)
     print(model)
     loss_fn = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9, weight_decay=reg)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     trainer = training.TorchTrainer(model, loss_fn, optimizer, device=device)
 
     dl_train = torch.utils.data.DataLoader(ds_train, batch_size=bs_train, shuffle=False)

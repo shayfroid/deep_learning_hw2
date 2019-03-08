@@ -373,7 +373,7 @@ class ConvVDO(ModuleWrapper):
 class ConvVariance(ModuleWrapper):
 
     def __init__(self, in_channels, out_channels, kernel_size, stride=1,
-                 padding=0, dilation=1, bias=True):
+                 padding=0, dilation=1, bias=True, rounding = 0):
         super(ConvVariance, self).__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -382,6 +382,7 @@ class ConvVariance(ModuleWrapper):
         self.padding = padding
         self.dilation = dilation
         self.groups = 1
+        self.rounding=rounding
         self.sigma = Parameter(torch.Tensor(
             out_channels, in_channels, *self.kernel_size))
         if bias:
@@ -412,11 +413,13 @@ class ConvVariance(ModuleWrapper):
         if self.permute_sigma:
             sigma2 = sigma2.view(-1)[torch.randperm(self.weight.shape).cuda()].view(self.weight.shape)
 
-        lrt_std = Variable.sqrt(1e-16 + self.op_nobias(x * x, sigma2))
+        lrt_std = Variable(torch.sqrt(1e-16 + self.op_nobias(x * x, sigma2)))
         if self.training:
             eps = Variable(lrt_std.data.new(lrt_std.size()).normal_())
         else:
-            eps = 0.0
+            eps = lrt_std.data.new(lrt_std.size()).normal_()
+        if self.rounding:
+            eps=torch.round(eps*self.rounding)/self.rounding
         return lrt_mean + lrt_std * eps
 
     def __repr__(self):
@@ -424,6 +427,7 @@ class ConvVariance(ModuleWrapper):
              ', stride={stride}')
         s += ', padding={padding}'
         s += ', dilation={dilation}'
+        s += ', rounding={rounding}'
         if self.bias is None:
             s += ', bias=False'
         s += ')'
