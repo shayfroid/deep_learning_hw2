@@ -58,12 +58,53 @@ source $CONDA_HOME/etc/profile.d/conda.sh
 conda activate $CONDA_ENV
 
 # Run python with the args to the script
-python -m hw2.experiments run-exp -n exp1_CIFAR10_NORM_CONVVAR_R0 -K 32 -L 2 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 0
-python -m hw2.experiments run-exp -n exp1_CIFAR10_NORM_CONVVAR_R1 -K 32 -L 4 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 1
-python -m hw2.experiments run-exp -n exp1_CIFAR10_NORM_CONVVAR_R2 -K 32 -L 6 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 2
-python -m hw2.experiments run-exp -n exp1_CIFAR10_NORM_CONVVAR_R100 -K 32 -L 8 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 100
-python -m hw2.experiments run-exp -n exp1_CIFAR10_NORM_CONVVAR_R1000 -K 32 -L 8 -P 2 -H 256 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn --rounding 1000
+python -m hw2.experiments run-exp -n exp1_MNIST_NORM_CONVVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset MNIST --rounding 0
+python -m hw2.experiments run-exp -n exp1_MNIST_NORM_CONVVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset MNIST --rounding 1
+python -m hw2.experiments run-exp -n exp1_MNIST_NORM_CONVVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset MNIST --rounding 2
+python -m hw2.experiments run-exp -n exp1_MNIST_NORM_CONVVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset MNIST --rounding 100
+python -m hw2.experiments run-exp -n exp1_MNIST_NORM_CONVVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset MNIST --rounding 1000
 
+python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset MNIST --rounding 0
+python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset MNIST --rounding 1
+python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset MNIST --rounding 2
+python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset MNIST --rounding 100
+python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset MNIST --rounding 1000
+
+python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --datase3 MNIST --rounding 0
+python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 1
+python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 2
+python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 100
+python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 1000
+
+python -m hw2.experiments run-exp -n exp4_MNIST_UNIF_LINEARVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset MNIST --rounding 0
+python -m hw2.experiments run-exp -n exp4_MNIST_UNIF_LINEARVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset MNIST --rounding 1
+python -m hw2.experiments run-exp -n exp4_MNIST_UNIF_LINEARVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset MNIST --rounding 2
+python -m hw2.experiments run-exp -n exp4_MNIST_UNIF_LINEARVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset MNIST --rounding 100
+python -m hw2.experiments run-exp -n exp4_MNIST_UNIF_LINEARVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset MNIST --rounding 1000
+
+python -m hw2.experiments run-exp -n exp5_CIFAR10_NORM_CONVVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset CIFAR10 --rounding 0
+python -m hw2.experiments run-exp -n exp5_CIFAR10_NORM_CONVVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset CIFAR10 --rounding 1
+python -m hw2.experiments run-exp -n exp5_CIFAR10_NORM_CONVVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset CIFAR10 --rounding 2
+python -m hw2.experiments run-exp -n exp5_CIFAR10_NORM_CONVVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset CIFAR10 --rounding 100
+python -m hw2.experiments run-exp -n exp5_CIFAR10_NORM_CONVVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVariance --dataset CIFAR10 --rounding 1000
+
+python -m hw2.experiments run-exp -n exp6_CIFAR10_UNIF_CONVVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset CIFAR10 --rounding 0
+python -m hw2.experiments run-exp -n exp6_CIFAR10_UNIF_CONVVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset CIFAR10 --rounding 1
+python -m hw2.experiments run-exp -n exp6_CIFAR10_UNIF_CONVVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset CIFAR10 --rounding 2
+python -m hw2.experiments run-exp -n exp6_CIFAR10_UNIF_CONVVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset CIFAR10 --rounding 100
+python -m hw2.experiments run-exp -n exp6_CIFAR10_UNIF_CONVVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset CIFAR10 --rounding 1000
+
+python -m hw2.experiments run-exp -n exp7_CIFAR10_NORM_LINEARVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset CIFAR10 --rounding 0
+python -m hw2.experiments run-exp -n exp7_CIFAR10_NORM_LINEARVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset CIFAR10 --rounding 1
+python -m hw2.experiments run-exp -n exp7_CIFAR10_NORM_LINEARVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset CIFAR10 --rounding 2
+python -m hw2.experiments run-exp -n exp7_CIFAR10_NORM_LINEARVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset CIFAR10 --rounding 100
+python -m hw2.experiments run-exp -n exp7_CIFAR10_NORM_LINEARVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset CIFAR10 --rounding 1000
+
+python -m hw2.experiments run-exp -n exp8_CIFAR10_UNIF_LINEARVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset CIFAR10 --rounding 0
+python -m hw2.experiments run-exp -n exp8_CIFAR10_UNIF_LINEARVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset CIFAR10 --rounding 1
+python -m hw2.experiments run-exp -n exp8_CIFAR10_UNIF_LINEARVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset CIFAR10 --rounding 2
+python -m hw2.experiments run-exp -n exp8_CIFAR10_UNIF_LINEARVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset CIFAR10 --rounding 100
+python -m hw2.experiments run-exp -n exp8_CIFAR10_UNIF_LINEARVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVarianceUnif --dataset CIFAR10 --rounding 1000
 
 echo "*** SLURM BATCH JOB '$JOB_NAME' DONE ***"
 EOF

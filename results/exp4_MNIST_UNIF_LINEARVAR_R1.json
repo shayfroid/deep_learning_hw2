@@ -1,0 +1,59 @@
+{
+  "config": {
+    "run_name": "exp4_MNIST_UNIF_LINEARVAR_R1",
+    "out_dir": "./results",
+    "seed": 645506568,
+    "bs_train": 128,
+    "bs_test": 32,
+    "batches": 100,
+    "epochs": 100,
+    "early_stopping": 5,
+    "checkpoints": null,
+    "lr": 0.0015,
+    "reg": 0.0002,
+    "filters_per_layer": 0,
+    "layers_per_block": 0,
+    "pool_every": 0,
+    "hidden_dims": 0,
+    "ycn": "LeNet5FCVarianceUnif",
+    "dataset": "MNIST",
+    "kw": {
+      "rounding": 1
+    }
+  },
+  "results": {
+    "num_epochs": 6,
+    "train_loss": [
+      2.301404865565839,
+      2.3012747657832815,
+      2.301257922451125,
+      2.3012602619016604,
+      2.301273761273447,
+      2.301286769574131
+    ],
+    "train_acc": [
+      11,
+      11,
+      11,
+      11,
+      11,
+      11
+    ],
+    "test_loss": [
+      2.3012282848358154,
+      2.3012149333953857,
+      2.3011152744293213,
+      2.3011252880096436,
+      2.301213502883911,
+      2.301161289215088
+    ],
+    "test_acc": [
+      11,
+      11,
+      11,
+      11,
+      11,
+      11
+    ]
+  }
+}

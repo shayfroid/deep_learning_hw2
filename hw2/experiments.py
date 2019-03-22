@@ -9,16 +9,15 @@ import torch
 import torchvision
 
 from torch.utils.data import DataLoader
-from torchvision.datasets import MNIST as CIFAR10
+from torchvision.datasets import MNIST
+from torchvision.datasets import CIFAR10
 
 from cs236605.train_results import FitResult
 from . import models
 from . import training
 
-if os.name == 'nt':
-    DATA_DIR = os.path.join(r"C:\Users\jonat\deeplearningcourse\cs236605-hw2", '.pytorch-datasets')
-else:
-    DATA_DIR = os.path.join(os.getenv('HOME'), '.pytorch-datasets')
+
+DATA_DIR = os.path.join(os.getenv('HOME'), '.pytorch-datasets')
 
 
 def run_experiment(run_name, out_dir='./results', seed=None,
@@ -27,7 +26,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
                    early_stopping=3, checkpoints=None, lr=1e-3, reg=1e-3,
                    # Model params
                    filters_per_layer=[64], layers_per_block=2, pool_every=2,
-                   hidden_dims=[1024], ycn=False,
+                   hidden_dims=[1024], ycn="LeNet5", dataset="MNIST",
                    **kw):
     """
     Execute a single run of experiment 1 with a single configuration.
@@ -42,21 +41,27 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     cfg = locals()
 
     tf = torchvision.transforms.ToTensor()
-    ds_train = CIFAR10(root=DATA_DIR, download=True, train=True, transform=tf)
-    ds_test = CIFAR10(root=DATA_DIR, download=True, train=False, transform=tf)
+    if dataset == "CIFAR10":
+        ds_train = CIFAR10(root=DATA_DIR, download=True, train=True, transform=tf)
+        ds_test = CIFAR10(root=DATA_DIR, download=True, train=False, transform=tf)
+    else:
+        ds_train = MNIST(root=DATA_DIR, download=True, train=True, transform=tf)
+        ds_test = MNIST(root=DATA_DIR, download=True, train=False, transform=tf)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    # Select model class (experiment 1 or 2)
-    model_cls = models.LeNet5 if not ycn else models.YourCodeNet
+    # Select model class
+    if ycn == "LeNet5":
+        model_cls = models.LeNet5
+    if ycn == "LeNet5ConvVariance":
+        model_cls = models.LeNet5ConvVariance
+    if ycn == "LeNet5ConvVarianceUnif":
+        model_cls = models.LeNet5ConvVarianceUnif
+    if ycn == "LeNet5FCVariance":
+        model_cls = models.LeNet5FCVariance
+    if ycn == "LeNet5FCVarianceUnif":
+        model_cls = models.LeNet5FCVarianceUnif
 
-    # TODO: Train
-    # - Create model, loss, optimizer and trainer based on the parameters.
-    #   Use the model you've implemented previously, cross entropy loss and
-    #   any optimizer that you wish.
-    # - Run training and save the FitResults in the fit_res variable.
-    # - The fit results and all the experiment parameters will then be saved
-    #  for you automatically.
     fit_res = None
     # ====== YOUR CODE: ======
     x0, _ = ds_train[0]
@@ -136,19 +141,21 @@ def parse_cli():
                         help='L2 regularization', default=1e-3)
 
     # # Model
-    sp_exp.add_argument('--filters-per-layer', '-K', type=int, nargs='+',
+    sp_exp.add_argument('--filters-per-layer', '-K', type=int, default=0, nargs='+',
                         help='Number of filters per conv layer in a block',
-                        metavar='K', required=True)
-    sp_exp.add_argument('--layers-per-block', '-L', type=int, metavar='L',
-                        help='Number of layers in each block', required=True)
-    sp_exp.add_argument('--pool-every', '-P', type=int, metavar='P',
+                        metavar='K', required=False)
+    sp_exp.add_argument('--layers-per-block', '-L', type=int, default=0, metavar='L',
+                        help='Number of layers in each block', required=False)
+    sp_exp.add_argument('--pool-every', '-P', type=int, default=0, metavar='P',
                         help='Pool after this number of conv layers',
-                        required=True)
-    sp_exp.add_argument('--hidden-dims', '-H', type=int, nargs='+',
+                        required=False)
+    sp_exp.add_argument('--hidden-dims', '-H', type=int, default=0, nargs='+',
                         help='Output size of hidden linear layers',
-                        metavar='H', required=True)
-    sp_exp.add_argument('--ycn', action='store_true', default=False,
+                        metavar='H', required=False)
+    sp_exp.add_argument('--ycn', type = str , default="LeNet5",
                         help='Whether to use your custom network')
+    sp_exp.add_argument('--dataset', type=str, default="MNIST",
+                        help='MNIST or CIFAR10')
     sp_exp.add_argument('--rounding', type=int, default=0,
                         help='Whether to use rounding')
 

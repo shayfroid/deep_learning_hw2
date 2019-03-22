@@ -1,0 +1,59 @@
+{
+  "config": {
+    "run_name": "exp6_CIFAR10_UNIF_CONVVAR_R1",
+    "out_dir": "./results",
+    "seed": 502059263,
+    "bs_train": 128,
+    "bs_test": 32,
+    "batches": 100,
+    "epochs": 100,
+    "early_stopping": 5,
+    "checkpoints": null,
+    "lr": 0.0015,
+    "reg": 0.0002,
+    "filters_per_layer": 0,
+    "layers_per_block": 0,
+    "pool_every": 0,
+    "hidden_dims": 0,
+    "ycn": "LeNet5ConvVarianceUnif",
+    "dataset": "CIFAR10",
+    "kw": {
+      "rounding": 1
+    }
+  },
+  "results": {
+    "num_epochs": 6,
+    "train_loss": [
+      2.302803893833209,
+      2.3027418446357903,
+      2.3027467282531817,
+      2.3027472557009334,
+      2.3027474191182713,
+      2.3027473971666885
+    ],
+    "train_acc": [
+      9,
+      9,
+      9,
+      9,
+      9,
+      9
+    ],
+    "test_loss": [
+      2.8044395446777344,
+      2.9442007541656494,
+      3.152552604675293,
+      3.5558032989501953,
+      2.9456207752227783,
+      3.3197453022003174
+    ],
+    "test_acc": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "config": {
+    "run_name": "exp8_CIFAR10_UNIF_LINEARVAR_R1",
+    "out_dir": "./results",
+    "seed": 280053677,
+    "bs_train": 128,
+    "bs_test": 32,
+    "batches": 100,
+    "epochs": 100,
+    "early_stopping": 5,
+    "checkpoints": null,
+    "lr": 0.0015,
+    "reg": 0.0002,
+    "filters_per_layer": 0,
+    "layers_per_block": 0,
+    "pool_every": 0,
+    "hidden_dims": 0,
+    "ycn": "LeNet5FCVarianceUnif",
+    "dataset": "CIFAR10",
+    "kw": {
+      "rounding": 1
+    }
+  },
+  "results": {
+    "num_epochs": 6,
+    "train_loss": [
+      2.302829175958853,
+      2.3027691139894375,
+      2.3027361933227697,
+      2.3027540344716337,
+      2.3027562149955183,
+      2.3027838075252447
+    ],
+    "train_acc": [
+      9,
+      9,
+      9,
+      9,
+      9,
+      9
+    ],
+    "test_loss": [
+      2.3025729656219482,
+      2.302860736846924,
+      2.30303955078125,
+      2.3027360439300537,
+      2.303394079208374,
+      2.3027844429016113
+    ],
+    "test_acc": [
+      10,
+      9,
+      9,
+      10,
+      10,
+      9
+    ]
+  }
+}
