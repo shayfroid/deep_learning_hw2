@@ -81,6 +81,27 @@ def run_experiment(run_name, out_dir='./results', seed=None,
 
     save_experiment(run_name, out_dir, cfg, fit_res)
 
+    
+def print_architecture(ycn,dataset,rounding):
+    if ycn == "LeNet5":
+        model_cls = models.LeNet5
+    if ycn == "LeNet5ConvVariance":
+        model_cls = models.LeNet5ConvVariance
+    if ycn == "LeNet5ConvVarianceUnif":
+        model_cls = models.LeNet5ConvVarianceUnif
+    if ycn == "LeNet5FCVariance":
+        model_cls = models.LeNet5FCVariance
+    if ycn == "LeNet5FCVarianceUnif":
+        model_cls = models.LeNet5FCVarianceUnif
+    tf = torchvision.transforms.ToTensor()
+    if dataset == "CIFAR10":
+        ds_train = CIFAR10(root=DATA_DIR, download=True, train=True, transform=tf)
+        ds_test = CIFAR10(root=DATA_DIR, download=True, train=False, transform=tf)
+    else:
+        ds_train = MNIST(root=DATA_DIR, download=True, train=True, transform=tf)
+        ds_test = MNIST(root=DATA_DIR, download=True, train=False, transform=tf)
+    model = model_cls(ds_train[0][0].shape, 10, 0, 0, 0, rounding=rounding)
+    print(model)
 
 def save_experiment(run_name, out_dir, config, fit_res):
     output = dict(

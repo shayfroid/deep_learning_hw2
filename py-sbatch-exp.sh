@@ -70,7 +70,7 @@ python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R2  --early-stoppin
 python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset MNIST --rounding 100
 python -m hw2.experiments run-exp -n exp2_MNIST_UNIF_CONVVAR_R1000 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5ConvVarianceUnif --dataset MNIST --rounding 1000
 
-python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --datase3 MNIST --rounding 0
+python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R0 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 0
 python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R1  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 1
 python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R2  --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 2
 python -m hw2.experiments run-exp -n exp3_MNIST_NORM_LINEARVAR_R100 --early-stopping 5 --reg 0.0002 --lr 0.0015 --ycn LeNet5FCVariance --dataset MNIST --rounding 100
